@@ -1,0 +1,647 @@
+import java.awt.EventQueue;
+
+
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.UIManager;
+import javax.swing.DropMode;
+import javax.swing.SwingConstants;
+import java.awt.Dialog.ModalExclusionType;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
+import java.awt.Window.Type;
+
+public class HesapMakinesi {
+		static double sonuc ;
+		static String sonuc1= "";
+		static String islem = "" ;
+		static String islem1= "" ;
+		static String clear = "";
+		private JFrame HesapMakinesi;
+		private JTextField textField;
+		private JButton button_4;
+		private JTextField textField_1;
+
+		public  void stringoperator(String deger) {
+			int uzunluk = deger.length();
+			int control = 0;
+			for(int a= 0;uzunluk>a;a++) {
+				if((deger.substring(a,a+1).equals("("))){
+					control += 1;
+					}
+				}
+				double[] reelnumber = new double [control];
+				String [] sayilar = new String[control];
+				int bas = 0;
+				int son = 0;
+				int ek = 0;
+				
+				for(int i = 0;uzunluk>i;i++) {
+					if(deger.substring(i,i+1).equals("(")) {
+						bas = i+1;
+						
+					}
+					if(deger.substring(i,i+1).equals(")")) {
+						son=i;
+						sayilar[ek]= deger.substring(bas,son);
+						ek++;
+						
+						
+					}
+					
+					
+				}
+				for(int c =0;control>c;c++) {
+					reelnumber[c]=Double.valueOf(sayilar[c]);
+					
+											}
+				sonuc =reelnumber[0];
+				
+				int buyukluk = deger.length()-1;
+				int c =1;
+				
+				if(control>1) {
+					
+				for(int fin= 0;buyukluk>fin;fin++) {
+					if(deger.substring(fin,fin+1).equals("-")) {
+						if(deger.substring(fin+1,fin+2).equals("(")) {
+							sonuc = sonuc - reelnumber[c];
+							c++;
+						}
+					}
+					if(deger.substring(fin,fin+1).equals("+")){
+						sonuc = sonuc + reelnumber[c];
+						c++;
+						
+			}
+					
+					if(deger.substring(fin,fin+1).equals("x")){
+						sonuc = sonuc * reelnumber[c];
+						c++;
+				
+			}
+					if(deger.substring(fin,fin+1).equals("÷")){
+						sonuc = sonuc / reelnumber[c];
+						c++;
+					
+			}
+				}
+				}
+//				"(3)+(3)+(3)x(-1)+"
+//				"(-3)+(-5)-(4)x(3)"÷(-3)+"
+				sonuc1 =String.valueOf(sonuc);
+				textField_1.setText(sonuc1);
+				
+				
+
+				}
+		
+
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					HesapMakinesi window = new HesapMakinesi();
+					window.HesapMakinesi.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public HesapMakinesi() {
+		initialize();
+	
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		HesapMakinesi = new JFrame();
+		HesapMakinesi.setForeground(Color.BLUE);
+		
+		HesapMakinesi.setResizable(false);
+		HesapMakinesi.setTitle("\t\t\t\t\t\t\t\t\t\t\tHesap Makinesi");
+		HesapMakinesi.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Root\\Desktop\\unnamed.png"));
+		HesapMakinesi.getContentPane().setBackground(Color.WHITE);
+		HesapMakinesi.setBounds(100, 100, 419, 684);
+		HesapMakinesi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		HesapMakinesi.getContentPane().setLayout(null);
+		
+		
+		textField = new JTextField();
+		textField.setEditable(false);
+		textField.setBackground(SystemColor.text);
+		textField.addKeyListener(new KeyAdapter() {
+			
+			public void keyTyped(KeyEvent e) {
+				char caracter = e.getKeyChar();//hangi tusa basildigini okuyoruz
+		        if (((caracter < '0') || (caracter > '9')) && (caracter != '\b')) {// sadece 0  ve 9 arası ifade girecek suanda
+
+		            e.consume();
+		        }
+		        }
+			 public void keyPressed(KeyEvent e) {//tusa basildiginda aktif olur.
+			    }
+
+			    public void keyReleased(KeyEvent e) {//tus birakildiginda aktiflesir.
+			    }
+		});
+		textField.setDropMode(DropMode.INSERT);
+		textField.setHorizontalAlignment(SwingConstants.RIGHT);
+		textField.setFont(new Font("Microsoft Yi Baiti", Font.ITALIC, 29));
+		textField.setBounds(0, 10, 403, 49);
+		HesapMakinesi.getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		JButton button_1 = new JButton("1");
+		button_1.setBackground(new Color(255, 255, 255));
+		button_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				islem = islem + "1";
+				textField_1.setText(islem);
+			}
+		});
+		button_1.setBounds(2, 495, 101, 75);
+		HesapMakinesi.getContentPane().add(button_1);
+		
+		button_4 = new JButton("4");
+		button_4.setBackground(new Color(255, 255, 255));
+		button_4.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				islem = islem + "4";
+				textField_1.setText(islem);
+				
+				
+			}
+		});
+		button_4.setBounds(2, 420, 101, 75);
+		HesapMakinesi.getContentPane().add(button_4);
+		
+		JButton button_artieksi = new JButton(" ± "); ////////////////Sayıyı + - çeviriyorum
+		button_artieksi.setBackground(new Color(245, 245, 245));
+		button_artieksi.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		button_artieksi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println(islem.substring(0,1));
+				
+				if(islem.substring(0,1).equals("-")) {
+					int asd = islem.length();
+					islem = islem.substring(1,asd);
+					textField_1.setText(islem);
+					System.out.println(islem.substring(1,asd));
+				}
+				
+				islem = "-" + islem;
+				textField_1.setText(islem);
+				
+			}
+		});
+		button_artieksi.setBounds(2, 570, 101, 75);
+		HesapMakinesi.getContentPane().add(button_artieksi);
+		
+		JButton button_0 = new JButton("0");
+		button_0.setBackground(new Color(255, 255, 255));
+		button_0.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_0.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				islem = islem + "0";
+				textField_1.setText(islem);
+				
+			}
+		});
+		button_0.setBounds(102, 570, 101, 75);
+		HesapMakinesi.getContentPane().add(button_0);
+		
+		JButton button_2 = new JButton("2");
+		button_2.setBackground(new Color(255, 255, 255));
+		button_2.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				islem = islem + "2";
+				textField_1.setText(islem);
+			}
+		});
+		button_2.setBounds(102, 495, 101, 75);
+		HesapMakinesi.getContentPane().add(button_2);
+		
+		JButton button_5 = new JButton("5");
+		button_5.setBackground(new Color(255, 255, 255));
+		button_5.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				islem = islem + "5";
+				textField_1.setText(islem);
+			}
+		});
+		button_5.setBounds(102, 420, 101, 75);
+		HesapMakinesi.getContentPane().add(button_5);
+		
+		JButton button_virgul = new JButton(",");
+		button_virgul.setBackground(new Color(245, 245, 245));
+		button_virgul.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_virgul.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int sat = islem.length();
+				for(int b= 0;sat>b;b++) {
+					int c = b+1;
+					if(islem.substring(b, c).equals(".")) {
+						return;
+					}
+					}
+				if(islem.length()>0) {
+				islem = islem + ".";
+				textField_1.setText(islem);
+				}
+				
+			}
+		});
+		button_virgul.setBounds(202, 570, 101, 75);
+		HesapMakinesi.getContentPane().add(button_virgul);
+		
+		JButton button_esit = new JButton("=");
+		button_esit.setBackground(new Color(245, 245, 245));
+		button_esit.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		button_esit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(islem.length()>0) {
+					int tas= islem1.length();
+					System.out.println(islem1.substring(tas-1,tas));
+					if((islem1.substring(tas-1,tas).equals("+"))||(islem1.substring(tas-1,tas).equals("-"))||(islem1.substring(tas-1,tas).equals("x"))||(islem1.substring(tas-1,tas).equals("÷"))) {
+						islem1 = islem1 + "(" + islem +")";
+						islem = clear;
+						textField_1.setText(islem);
+						stringoperator(islem1);
+						islem1 = clear;
+						textField.setText(islem1);
+						
+						
+						
+					}}
+				
+			}
+		});
+		button_esit.setBounds(302, 570, 101, 75);
+		HesapMakinesi.getContentPane().add(button_esit);
+		
+		JButton button_3 = new JButton("3");
+		button_3.setBackground(new Color(255, 255, 255));
+		button_3.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				islem = islem + "3";
+				textField_1.setText(islem);
+				
+			}
+		});
+		button_3.setBounds(202, 495, 101, 75);
+		HesapMakinesi.getContentPane().add(button_3);
+		
+		JButton button_artı = new JButton("+");
+		button_artı.setBackground(new Color(245, 245, 245));
+		button_artı.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		button_artı.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(islem.length() ==0) {
+					int tars = islem1.length();
+					int a = islem1.length()-1;
+					
+					if((islem1.substring(tars-1,tars).equals("-"))||(islem1.substring(tars-1,tars).equals("x"))||(islem1.substring(tars-1,tars).equals("÷"))) {
+						islem1 = islem1.substring(0, a);
+						islem1 = islem1 + "+";
+						textField.setText(islem1);
+						islem=clear;
+						textField_1.setText(islem);
+						stringoperator(islem1);
+					}
+				}
+				if(islem.length()>0) {
+					islem1 = islem1 + "(" + islem +")"+ "+";
+					islem = clear;
+					textField_1.setText(islem);
+					textField.setText(islem1);
+					stringoperator(islem1);
+					
+					
+				}
+			
+			}
+		});
+		button_artı.setBounds(302, 495, 101, 75);
+		HesapMakinesi.getContentPane().add(button_artı);
+		
+		JButton button_6 = new JButton("6");
+		button_6.setBackground(new Color(255, 255, 255));
+		button_6.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				islem = islem + "6";
+				textField_1.setText(islem);
+				
+			}
+		});
+		button_6.setBounds(202, 420, 101, 75);
+		HesapMakinesi.getContentPane().add(button_6);
+		
+		JButton button_eksi = new JButton("-");
+		button_eksi.setBackground(new Color(245, 245, 245));
+		button_eksi.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		button_eksi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(islem.length() ==0) {
+					int tars = islem1.length();
+					int a = islem1.length()-1;
+					
+					if((islem1.substring(tars-1,tars).equals("+"))||(islem1.substring(tars-1,tars).equals("x"))||(islem1.substring(tars-1,tars).equals("÷"))) {
+						islem1 = islem1.substring(0, a);
+						islem1 = islem1 + "-";
+						textField.setText(islem1);
+						islem=clear;
+						textField_1.setText(islem);
+						stringoperator(islem1);
+					}}
+				
+				if(islem.length()>0) {
+					islem1 = islem1 + "(" + islem +")"+ "-";
+					islem = clear;
+					textField_1.setText(islem);
+					textField.setText(islem1);
+					stringoperator(islem1);
+					
+					
+				}
+			}
+		});
+		button_eksi.setBounds(302, 420, 101, 75);
+		HesapMakinesi.getContentPane().add(button_eksi);
+		
+		JButton button_7 = new JButton("7");
+		button_7.setBackground(new Color(255, 255, 255));
+		button_7.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				islem = islem + "7";
+				textField_1.setText(islem);
+			}
+		});
+		button_7.setBounds(2, 345, 101, 75);
+		HesapMakinesi.getContentPane().add(button_7);
+		
+		JButton button_carpi = new JButton("X");
+		button_carpi.setBackground(new Color(245, 245, 245));
+		button_carpi.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		button_carpi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(islem.length() ==0) {
+					int tars = islem1.length();
+					int a = islem1.length()-1;
+					
+					if((islem1.substring(tars-1,tars).equals("-"))||(islem1.substring(tars-1,tars).equals("+"))||(islem1.substring(tars-1,tars).equals("÷"))) {
+						islem1 = islem1.substring(0, a);
+						islem1 = islem1 + "x";
+						textField.setText(islem1);
+						islem=clear;
+						textField_1.setText(islem);
+						stringoperator(islem1);
+					}}
+				
+				if(islem.length()>0) {
+					islem1 = islem1 + "(" + islem +")"+ "x";
+					islem = clear;
+					textField_1.setText(islem);
+					textField.setText(islem1);
+					stringoperator(islem1);
+					
+				
+				}
+			}
+		});
+		button_carpi.setBounds(302, 345, 101, 75);
+		HesapMakinesi.getContentPane().add(button_carpi);
+		
+		JButton button_9 = new JButton("9");
+		button_9.setBackground(new Color(255, 255, 255));
+		button_9.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				islem = islem + "9";
+				textField_1.setText(islem);
+				
+			}
+		});
+		button_9.setBounds(202, 345, 101, 75);
+		HesapMakinesi.getContentPane().add(button_9);
+		
+		JButton button_8 = new JButton("8");
+		button_8.setBackground(new Color(255, 255, 255));
+		button_8.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				islem = islem + "8";
+				textField_1.setText(islem);
+				
+			}
+		});
+		button_8.setBounds(102, 345, 101, 75);
+		HesapMakinesi.getContentPane().add(button_8);
+		
+		JButton button_alldelete = new JButton("CE");
+		button_alldelete.setBackground(new Color(245, 245, 245));
+		button_alldelete.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_alldelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				islem = clear;
+				textField_1.setText(islem);
+				
+			}
+		});
+		button_alldelete.setBounds(2, 271, 101, 75);
+		HesapMakinesi.getContentPane().add(button_alldelete);
+		
+		JButton button_yuzde = new JButton("%");
+		button_yuzde.setBackground(new Color(245, 245, 245));
+		button_yuzde.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_yuzde.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(islem.length()>0) {
+					islem = "(" + islem +")";
+					stringoperator(islem);
+					sonuc = sonuc / 100;
+					sonuc1=String.valueOf(sonuc);
+					islem =sonuc1;
+					textField_1.setText(islem);
+				}
+			}
+		});
+		button_yuzde.setBounds(2, 196, 101, 75);
+		HesapMakinesi.getContentPane().add(button_yuzde);
+		
+		JButton button_delete = new JButton("C");
+		button_delete.setBackground(new Color(245, 245, 245));
+		button_delete.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_delete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				islem =clear;
+				islem1 =clear;
+				textField.setText(islem1);
+				textField_1.setText(islem);
+				
+				
+			}
+		});
+		button_delete.setBounds(102, 271, 101, 75);
+		HesapMakinesi.getContentPane().add(button_delete);
+		
+		JButton button_deletet = new JButton("←");
+		button_deletet.setBackground(new Color(245, 245, 245));
+		button_deletet.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		button_deletet.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(islem.length()>0) {
+					int tok = islem.length();
+					tok--;
+				islem = islem.substring(0, tok);
+			
+				textField_1.setText(islem);
+				}
+				}
+		});
+		button_deletet.setBounds(202, 271, 101, 75);
+		HesapMakinesi.getContentPane().add(button_deletet);
+		
+		JButton button_bolme = new JButton("÷");
+		button_bolme.setBackground(new Color(245, 245, 245));
+		button_bolme.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		button_bolme.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(islem.length() ==0) {
+					int tars = islem1.length();
+					int a = islem1.length()-1;
+					
+					if((islem1.substring(tars-1,tars).equals("-"))||(islem1.substring(tars-1,tars).equals("x"))||(islem1.substring(tars-1,tars).equals("+"))) {
+						islem1 = islem1.substring(0, a);
+						islem1 = islem1 + "÷";
+						textField.setText(islem1);
+						islem=clear;
+						textField_1.setText(islem);
+						stringoperator(islem1);
+					}}
+				
+				if(islem.length()>0) {
+					islem1 = islem1 + "(" + islem +")"+ "÷";
+					islem = clear;
+					textField_1.setText(islem);
+					textField.setText(islem1);
+					stringoperator(islem1);
+					islem = clear;
+					
+				}
+				
+			}
+			
+		});
+		button_bolme.setBounds(302, 271, 101, 75);
+		HesapMakinesi.getContentPane().add(button_bolme);
+		
+		JButton button_1eks = new JButton("1/x");
+		button_1eks.setBackground(new Color(245, 245, 245));
+		button_1eks.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_1eks.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(islem.length()>0) {
+					islem = "(" + islem +")";
+					stringoperator(islem);
+					sonuc = 1 / sonuc ;
+					sonuc1=String.valueOf(sonuc);
+					islem =sonuc1;
+					textField_1.setText(islem);
+				}
+			
+			
+				
+			}
+		});
+		button_1eks.setBounds(302, 196, 101, 75);
+		HesapMakinesi.getContentPane().add(button_1eks);
+		
+		JButton button_kok = new JButton("√ ");
+		button_kok.setBackground(new Color(245, 245, 245));
+		button_kok.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_kok.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(islem.length()>0) {
+					islem = "(" + islem +")";
+					stringoperator(islem);
+					sonuc = Math.sqrt(sonuc);
+					sonuc1=String.valueOf(sonuc);
+					islem =sonuc1;
+					textField_1.setText(islem);
+				}
+			}
+		});
+		button_kok.setBounds(102, 196, 101, 75);
+		HesapMakinesi.getContentPane().add(button_kok);
+		
+		JButton button_xkare = new JButton("x²");
+		button_xkare.setBackground(new Color(245, 245, 245));
+		button_xkare.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		button_xkare.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(islem.length()>0) {
+					islem = "(" + islem +")";
+					stringoperator(islem);
+					sonuc = sonuc * sonuc;
+					sonuc1=String.valueOf(sonuc);
+					islem =sonuc1;
+					textField_1.setText(islem);
+				}
+			}
+		});
+		button_xkare.setBounds(202, 196, 101, 75);
+		HesapMakinesi.getContentPane().add(button_xkare);
+		
+		textField_1 = new JTextField();
+		textField_1.setBackground(SystemColor.text);
+		textField_1.setEditable(false);
+		textField_1.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char caracter = e.getKeyChar();//hangi tusa basildigini okuyoruz
+		        if (((caracter < '0') || (caracter > '9')) && (caracter != '\b')) {// bu if sart kontrolünde sadece 0 ile 9 arasinda rakamlarin girilebilecegini belirtiyoruz
+
+		            e.consume();
+		        }
+		        }
+			 public void keyPressed(KeyEvent e) {//tusa basildiginda aktif olur.
+			    }
+
+			    public void keyReleased(KeyEvent e) {//tus birakildiginda aktiflesir.
+			    }
+		});
+		textField_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		textField_1.setFont(new Font("Tahoma", Font.BOLD, 35));
+		textField_1.setBounds(0, 55, 403, 116);
+		HesapMakinesi.getContentPane().add(textField_1);
+		textField_1.setColumns(10);
+	}
+}
